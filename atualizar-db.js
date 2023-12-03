@@ -1,16 +1,27 @@
 const fs = require('fs');
+const chokidar = require('chokidar');
 
 let conteudoAtual = {};
-try {
-    conteudoAtual = JSON.parse(fs.readFileSync('db.json', 'utf-8'));
-} catch (error) {
-    console.error('Erro ao ler o arquivo db.json:', error.message);
+
+function arquivoModificado() {
+
+    const watcher = chokidar.watch('db.json', {
+        ignoreInitial: true,
+    });
+
+    watcher.on('change', (caminhoArquivo) => {
+        console.log(`Arquivo ${caminhoArquivo} foi modificado.`);
+
+        try {
+            conteudoAtual = JSON.parse(fs.readFileSync(caminhoArquivo, 'utf-8'));
+        } catch (error) {
+            console.error('Erro ao ler o arquivo db.json:', error.message);
+        }
+    });
+
+    watcher.on('error', (erro) => {
+        console.error(`Erro na observação de alterações: ${erro}`);
+    });
 }
 
-if (conteudoAtual && (typeof conteudoAtual === 'object' || Array.isArray(conteudoAtual))) {
-
-    fs.writeFileSync('db.json', JSON.stringify(conteudoAtual, null, 2));
-    console.log('db.json atualizado com sucesso!');
-} else {
-    console.error('Os dados recebidos não são válidos. Certifique-se de esta passando um objeto.');
-}
+arquivoModificado();
