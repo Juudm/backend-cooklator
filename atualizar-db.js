@@ -1,26 +1,25 @@
 const fs = require('fs');
-const chokidar = require('chokidar');
 
 let conteudoAtual = {};
+let alteracaoPendente = false;
 
 function arquivoModificado() {
 
-    const watcher = chokidar.watch('db.json', {
-        ignoreInitial: true,
-    });
+    fs.watch('db.json', (evento, nomeArquivo) => {
+        if (nomeArquivo && evento === 'change' && !alteracaoPendente) {
 
-    watcher.on('change', (caminhoArquivo) => {
-        console.log(`Arquivo ${caminhoArquivo} foi modificado.`);
+            alteracaoPendente = true;
 
-        try {
-            conteudoAtual = JSON.parse(fs.readFileSync(caminhoArquivo, 'utf-8'));
-        } catch (error) {
-            console.error('Erro ao ler o arquivo db.json:', error.message);
+            try {
+                conteudoAtual = JSON.parse(fs.readFileSync('db.json', 'utf-8'));
+            } catch (error) {
+                console.error('Erro ao ler o arquivo db.json:', error.message);
+            }
+
+            setTimeout(() => {
+                alteracaoPendente = false;
+            }, 1000);
         }
-    });
-
-    watcher.on('error', (erro) => {
-        console.error(`Erro na observação de alterações: ${erro}`);
     });
 }
 
