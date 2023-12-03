@@ -1,6 +1,5 @@
 
 const fs = require('fs');
-const jsonServer = require("json-server");
 
 let conteudoAtual = {};
 
