@@ -7,12 +7,10 @@ try {
     console.error('Erro ao ler o arquivo db.json:', error.message);
 }
 
-const dadosRecebidos = { novaChave: 'novoValor' };
-conteudoAtual = {
-    ...conteudoAtual,
-    ...dadosRecebidos,
-};
+if (conteudoAtual && (typeof conteudoAtual === 'object' || Array.isArray(conteudoAtual))) {
 
-fs.writeFileSync('db.json', JSON.stringify(conteudoAtual, null, 2));
-
-console.log('db.json atualizado com sucesso!');
+    fs.writeFileSync('db.json', JSON.stringify(conteudoAtual, null, 2));
+    console.log('db.json atualizado com sucesso!');
+} else {
+    console.error('Os dados recebidos não são válidos. Certifique-se de esta passando um objeto.');
+}
