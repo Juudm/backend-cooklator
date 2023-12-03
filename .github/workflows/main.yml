@@ -1,0 +1,30 @@
+name: Atualização Automática do db.json
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  atualizar-db:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v2
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Executar Script de Atualização
+        run: node atualizar-db.js
+
+      - name: Commit e Push Atualizações
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add db.json
+          git commit -m "Atualização automática do db.json"
+          git push
