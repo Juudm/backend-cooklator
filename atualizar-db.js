@@ -1,26 +1,20 @@
+
 const fs = require('fs');
-const chokidar = require('chokidar');
+const jsonServer = require("json-server");
 
 let conteudoAtual = {};
 
 function arquivoModificado() {
 
-    const watcher = chokidar.watch('db.json', {
-        ignoreInitial: true,
-    });
+    fs.watch('db.json', (evento, nomeArquivo) => {
+        if (nomeArquivo && evento === 'change') {
 
-    watcher.on('change', (caminhoArquivo) => {
-        console.log(`Arquivo ${caminhoArquivo} foi modificado.`);
-
-        try {
-            conteudoAtual = JSON.parse(fs.readFileSync(caminhoArquivo, 'utf-8'));
-        } catch (error) {
-            console.error('Erro ao ler o arquivo db.json:', error.message);
+            try {
+                conteudoAtual = JSON.parse(fs.readFileSync('db.json', 'utf-8'));
+            } catch (error) {
+                console.error('Erro ao ler o arquivo db.json:', error.message);
+            }
         }
-    });
-
-    watcher.on('error', (erro) => {
-        console.error(`Erro na observação de alterações: ${erro}`);
     });
 }
 
