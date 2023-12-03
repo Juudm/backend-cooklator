@@ -27,6 +27,5 @@ jobs:
           git config --local user.name "GitHub Actions"
           git add db.json
           git commit -m "Atualização automática do db.json"
-          git remote add origin_with_token "https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}"
-          git remote set-url origin_with_token "https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}"
+          git remote set-url origin "https://${{ secrets.GH_TOKEN }}@github.com/Juudm/backend-cooklator"
           git push origin_with_token main
