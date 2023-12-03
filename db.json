@@ -9,7 +9,8 @@
       "color": "#176B87",
       "preparationTime": 0,
       "startDate": "2023-11-21T12:34:56.789Z",
-      "isConcluded": true
+      "isConcluded": true,
+      "userId": 9
     },
     {
       "name": "Bolo de cenoura",
@@ -20,7 +21,8 @@
       "id": 8,
       "preparationTime": 0,
       "startDate": "2023-11-21T12:34:56.789Z",
-      "isConcluded": false
+      "isConcluded": false,
+      "userId": 9
     },
     {
       "name": "pudim",
@@ -31,7 +33,8 @@
       "id": 9,
       "preparationTime": 0,
       "startDate": "2023-11-21T12:34:56.789Z",
-      "isConcluded": false
+      "isConcluded": false,
+      "userId": 9
     },
     {
       "name": "croquete",
@@ -42,7 +45,8 @@
       "preparationTime": 0,
       "startDate": "2023-11-22T01:26:09.799Z",
       "isConcluded": false,
-      "id": 10
+      "id": 10,
+      "userId": 9
     }
   ],
   "material": [
