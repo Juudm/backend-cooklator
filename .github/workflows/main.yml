@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: '14'
 
+      - name: Instalar Dependências
+        run: npm install
+
       - name: Executar Script de Atualização
         run: node atualizar-db.js
 
