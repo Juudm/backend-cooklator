@@ -1,38 +1,27 @@
 const fs = require('fs');
-const express = require('express');
+const chokidar = require('chokidar');
 
-const app = express();
-const port = process.env.PORT || 3000;
+let conteudoAtual = {};
 
-app.use(express.json());
+function arquivoModificado() {
 
-app.get('/atualizar-db', (req, res) => {
-    try {
-        atualizarArquivo()
+    const watcher = chokidar.watch('db.json', {
+        ignoreInitial: true,
+    });
 
-        setTimeout(() => {
-            res.status(200).send('Atualização bem-sucedida');
-        }, 2000);
-    } catch (error) {
-        console.error('Erro ao atualizar o arquivo db.json:', error.message);
-        res.status(500).send('Erro ao atualizar o arquivo db.json');
-    }
-});
+    watcher.on('change', (caminhoArquivo) => {
+        console.log(`Arquivo ${caminhoArquivo} foi modificado.`);
 
-app.listen(port, () => {
-    console.log(`Servidor está rodando na porta ${port}`);
-});
+        try {
+            conteudoAtual = JSON.parse(fs.readFileSync(caminhoArquivo, 'utf-8'));
+        } catch (error) {
+            console.error('Erro ao ler o arquivo db.json:', error.message);
+        }
+    });
 
-function atualizarArquivo() {
-    let conteudoAtual = {};
-    try {
-        conteudoAtual = JSON.parse(fs.readFileSync('db.json', 'utf-8'));
-    } catch (error) {
-        console.error('Erro ao ler o arquivo db.json:', error.message);
-    }
-
-    fs.writeFileSync('db.json', JSON.stringify(conteudoAtual, null, 2));
-
-    console.log('db.json atualizado com sucesso!');
+    watcher.on('error', (erro) => {
+        console.error(`Erro na observação de alterações: ${erro}`);
+    });
 }
 
+arquivoModificado();
