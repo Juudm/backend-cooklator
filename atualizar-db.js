@@ -1,27 +1,20 @@
 const fs = require('fs');
-const chokidar = require('chokidar');
 
-let conteudoAtual = {};
+function atualizarArquivo() {
+    let conteudoAtual = {};
+    try {
+        conteudoAtual = JSON.parse(fs.readFileSync('db.json', 'utf-8'));
+    } catch (error) {
+        console.error('Erro ao ler o arquivo db.json:', error.message);
+        return;
+    }
 
-function arquivoModificado() {
+    fs.writeFileSync('db.json', JSON.stringify(conteudoAtual, null, 2));
 
-    const watcher = chokidar.watch('db.json', {
-        ignoreInitial: true,
-    });
-
-    watcher.on('change', (caminhoArquivo) => {
-        console.log(`Arquivo ${caminhoArquivo} foi modificado.`);
-
-        try {
-            conteudoAtual = JSON.parse(fs.readFileSync(caminhoArquivo, 'utf-8'));
-        } catch (error) {
-            console.error('Erro ao ler o arquivo db.json:', error.message);
-        }
-    });
-
-    watcher.on('error', (erro) => {
-        console.error(`Erro na observação de alterações: ${erro}`);
-    });
+    console.log('db.json atualizado com sucesso!');
 }
 
-arquivoModificado();
+atualizarArquivo();
+
+const intervalo = 15 * 60 * 1000; // 15 minutos
+setInterval(atualizarArquivo, intervalo);
