@@ -2,7 +2,6 @@ const fs = require('fs');
 const express = require('express');
 
 const app = express();
-const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -19,9 +18,6 @@ app.get('/atualizar-db', (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`Servidor está rodando na porta ${port}`);
-});
 
 function atualizarArquivo() {
     let conteudoAtual = {};
