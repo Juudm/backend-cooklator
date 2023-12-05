@@ -47,6 +47,18 @@
       "isConcluded": false,
       "id": 10,
       "userId": 9
+    },
+    {
+      "name": "Arroz doce",
+      "hourValue": 6,
+      "appliesDefaultValue": false,
+      "comments": "com camarao",
+      "color": "#ffc107",
+      "id": 11,
+      "preparationTime": 0,
+      "startDate": "2023-12-04T12:34:56.789Z",
+      "isConcluded": false,
+      "userId": 8
     }
   ],
   "material": [
