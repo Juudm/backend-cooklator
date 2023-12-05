@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Executar Script de Atualização
-        run: node atualizar-db.js
+        run: curl -X GET https://cooklator-backend.onrender.com/atualizar-db
 
       - name: Commit e Push Atualizações
         run: |
