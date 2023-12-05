@@ -1,36 +1,35 @@
-const fs = require('fs');
-const express = require('express');
-const cors = require('cors');
-const app = express();
-
-app.use(cors({ methods: 'GET' }));
-app.use(express.json());
-
-app.get('/atualizar-db', (req, res) => {
-    console.log('Recebida solicitação para /atualizar-db');
-    try {
-        atualizarArquivo()
-
-        setTimeout(() => {
-            res.status(200).send('Atualização bem-sucedida');
-        }, 2000);
-    } catch (error) {
-        console.error('Erro ao atualizar o arquivo db.json:', error.message);
-        res.status(500).send('Erro ao atualizar o arquivo db.json');
-    }
-});
-
+const jsonServer = require("json-server");
+const {readFileSync, writeFileSync} = require("fs");
+const server = jsonServer.create();
+const router = jsonServer.router("db.json");
+const middlewares = jsonServer.defaults();
+const port = process.env.PORT || 3001;
 
 function atualizarArquivo() {
     let conteudoAtual = {};
     try {
-        conteudoAtual = JSON.parse(fs.readFileSync('db.json', 'utf-8'));
+        conteudoAtual = JSON.parse(readFileSync('db.json', 'utf-8'));
+
     } catch (error) {
         console.error('Erro ao ler o arquivo db.json:', error.message);
     }
 
-    fs.writeFileSync('db.json', JSON.stringify(conteudoAtual, null, 2));
+    writeFileSync('db.json', JSON.stringify(conteudoAtual, null, 2));
 
     console.log('db.json atualizado com sucesso!');
 }
 
+
+server.get('/atualizar-db', (req, res) => {
+    console.log('Recebida solicitação para /atualizar-db');
+    atualizarArquivo()
+
+    res.status(200).json({message: "Arquivo atualizado com sucesso!"});
+});
+
+server.use(middlewares);
+server.use(router);
+
+server.listen(port, () => {
+    console.log(`JSON Server está rodando na porta ${port}`);
+});
