@@ -31,4 +31,5 @@ jobs:
           git add .
           git commit -m "Atualização automática do db.json"
           git remote set-url origin "https://${{ secrets.GH_TOKEN }}@github.com/Juudm/backend-cooklator"
-          git push origin main
+          git status
+          git push -f origin main
