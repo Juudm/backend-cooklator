@@ -2,12 +2,12 @@
   "recipe": [
     {
       "id": 1,
-      "name": "torta de manteiga escocesa",
+      "name": "Torta de manteiga escocesa",
       "hourValue": 3.00,
       "appliesDefaultValue": false,
       "comments": "Testando a receita com flor de sal",
       "color": "#176B87",
-      "preparationTime": 0,
+      "preparationTime": "3 horas e 37 minutos",
       "startDate": "2023-11-21T12:34:56.789Z",
       "isConcluded": true,
       "userId": 9,
